@@ -1,0 +1,74 @@
+{
+  "name": "OCSF Threat Detection Dashboard",
+  "description": "Active threats and detection triggers across all OCSF-normalized sources",
+  "version": "1.0.0",
+  "layout": "grid",
+  "refreshInterval": "30s",
+  "timeRange": "1h",
+  "panels": [
+    {
+      "id": "brute-force",
+      "title": "Brute Force Attacks",
+      "type": "table",
+      "position": {"x": 0, "y": 0, "w": 6, "h": 4},
+      "query": "* | filter (message contains 'Failed password' OR resultType matches '^[1-9]' OR error_code != null) | group count() as failed_attempts by coalesce(src_ip, src_endpoint_ip, callerIpAddress), user_name | filter failed_attempts >= 3 | sort -failed_attempts",
+      "description": "Source IPs with multiple failed authentication attempts"
+    },
+    {
+      "id": "port-scan",
+      "title": "Port Scan Activity",
+      "type": "table",
+      "position": {"x": 6, "y": 0, "w": 6, "h": 4},
+      "query": "serverHost in ('fortigate-ocsf','checkpoint-ocsf','paloalto-ocsf','watchguard-ocsf') | filter action='deny' | group hits=count() by srcip, dstport | group unique_ports=count() by srcip | filter unique_ports >= 5 | sort -unique_ports",
+      "description": "Source IPs scanning multiple ports"
+    },
+    {
+      "id": "suspicious-processes",
+      "title": "Suspicious Process Execution",
+      "type": "table",
+      "position": {"x": 0, "y": 4, "w": 12, "h": 4},
+      "query": "serverHost='linux-ocsf' | filter message matches '(mimikatz|psexec|netcat|nc -e|powershell.*-enc|bash.*-i|curl.*\\.sh|wget.*\\.sh|python.*-c.*socket)' | columns timestamp, message",
+      "description": "Detection of known attack tools and suspicious commands"
+    },
+    {
+      "id": "dns-zone-transfer",
+      "title": "DNS Zone Transfer Attempts",
+      "type": "table",
+      "position": {"x": 0, "y": 8, "w": 6, "h": 4},
+      "query": "serverHost in ('msdns-ocsf','iscbind-ocsf') | filter message contains 'AXFR' OR message contains 'zone transfer' | columns timestamp, message",
+      "description": "DNS zone transfer attempts (T1590.002)"
+    },
+    {
+      "id": "dns-tunneling",
+      "title": "Possible DNS Tunneling",
+      "type": "table",
+      "position": {"x": 6, "y": 8, "w": 6, "h": 4},
+      "query": "serverHost in ('msdns-ocsf','iscbind-ocsf') | filter length(message) > 200 | columns timestamp, message | limit 20",
+      "description": "Long DNS queries indicating potential tunneling"
+    },
+    {
+      "id": "risky-signins",
+      "title": "Risky Sign-Ins (Entra ID)",
+      "type": "table",
+      "position": {"x": 0, "y": 12, "w": 12, "h": 4},
+      "query": "serverHost='entraid-ocsf' | filter message contains 'high' OR message contains 'medium' OR message contains 'risky' | columns timestamp, message | limit 20",
+      "description": "High-risk authentication events from Entra ID"
+    },
+    {
+      "id": "db-privileged-actions",
+      "title": "Database Privileged Actions",
+      "type": "table",
+      "position": {"x": 0, "y": 16, "w": 6, "h": 4},
+      "query": "serverHost in ('oracle-ocsf','hanadb-ocsf') | filter message contains 'GRANT' OR message contains 'CREATE USER' OR message contains 'BACKUP' | columns timestamp, message",
+      "description": "Sensitive database privilege changes"
+    },
+    {
+      "id": "lateral-movement",
+      "title": "Lateral Movement Indicators",
+      "type": "table",
+      "position": {"x": 6, "y": 16, "w": 6, "h": 4},
+      "query": "serverHost in ('fortigate-ocsf','checkpoint-ocsf','paloalto-ocsf') | filter (dstport in (22,3389,445,5985,135) AND srcip matches '^(10\\.|192\\.168\\.|172\\.)') | group count() as conns by srcip, dstport | filter conns >= 3 | sort -conns",
+      "description": "Internal-to-internal connections on admin ports"
+    }
+  ]
+}

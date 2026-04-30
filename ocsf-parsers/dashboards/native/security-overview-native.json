@@ -1,0 +1,64 @@
+{
+  "name": "OCSF Security Overview",
+  "graphs": [
+    {
+      "label": "Events by Source",
+      "facet": "serverHost",
+      "filter": "serverHost contains 'ocsf' or serverHost contains 'attack-target'",
+      "graphType": "topValuesTable",
+      "limit": 20
+    },
+    {
+      "label": "Event Volume Over Time",
+      "filter": "serverHost contains 'ocsf' or serverHost contains 'attack-target'",
+      "function": "count",
+      "graphType": "stackedBar",
+      "breakdown": "serverHost"
+    },
+    {
+      "label": "Severity Distribution",
+      "facet": "severity",
+      "filter": "severity is not null",
+      "graphType": "topValuesTable",
+      "limit": 10
+    },
+    {
+      "label": "Top Source IPs",
+      "facet": "src_ip",
+      "filter": "src_ip is not null",
+      "graphType": "topValuesTable",
+      "limit": 10
+    },
+    {
+      "label": "Top Active Users",
+      "facet": "user_name",
+      "filter": "user_name is not null",
+      "graphType": "topValuesTable",
+      "limit": 10
+    },
+    {
+      "label": "Authentication Failures (count)",
+      "filter": "(action='deny' or status='failure' or message contains 'Failed password')",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "Firewall Denies (count)",
+      "filter": "(serverHost='fortigate-ocsf' or serverHost='checkpoint-ocsf' or serverHost='paloalto-ocsf' or serverHost='watchguard-ocsf') and (action='deny' or action='block' or action='drop')",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "DNS Queries (count)",
+      "filter": "serverHost='msdns-ocsf' or serverHost='iscbind-ocsf' or serverHost='attack-target-04'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "Database Activity (count)",
+      "filter": "serverHost='oracle-ocsf' or serverHost='hanadb-ocsf' or serverHost='attack-target-05'",
+      "function": "count",
+      "graphType": "value"
+    }
+  ]
+}

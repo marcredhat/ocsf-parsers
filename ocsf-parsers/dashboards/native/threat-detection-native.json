@@ -1,0 +1,73 @@
+{
+  "name": "OCSF Threat Detection",
+  "graphs": [
+    {
+      "label": "Brute Force Attempts (Failed Logins)",
+      "facet": "src_ip",
+      "filter": "message contains 'Failed password' or status='failure' or resultType matches '^[1-9]'",
+      "graphType": "topValuesTable",
+      "limit": 15
+    },
+    {
+      "label": "Port Scan Sources",
+      "facet": "srcip",
+      "filter": "(serverHost='fortigate-ocsf' or serverHost='attack-target-02') and action='deny'",
+      "graphType": "topValuesTable",
+      "limit": 10
+    },
+    {
+      "label": "Suspicious Process Execution",
+      "filter": "serverHost='attack-target-03' or message matches '(mimikatz|netcat|nc -e|powershell.*-enc|reverse shell|/tmp/.hidden)'",
+      "function": "count",
+      "graphType": "stackedBar",
+      "breakdown": "serverHost"
+    },
+    {
+      "label": "DNS Zone Transfer Attempts (AXFR)",
+      "filter": "message contains 'AXFR' or message contains 'zone transfer'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "Possible DNS Tunneling (Long Queries)",
+      "filter": "(serverHost='iscbind-ocsf' or serverHost='attack-target-04') and message matches '[A-Za-z0-9+/=]{50,}'",
+      "function": "count",
+      "graphType": "stackedBar"
+    },
+    {
+      "label": "Risky Sign-Ins (Entra ID)",
+      "filter": "serverHost='entraid-ocsf' or serverHost='attack-target-06'",
+      "function": "count",
+      "graphType": "stackedBar",
+      "breakdown": "callerIpAddress"
+    },
+    {
+      "label": "Database Privileged Operations",
+      "filter": "(serverHost='hanadb-ocsf' or serverHost='oracle-ocsf' or serverHost='attack-target-05') and (message contains 'GRANT' or message contains 'BACKUP' or message contains 'CREATE USER')",
+      "function": "count",
+      "graphType": "stackedBar",
+      "breakdown": "user_name"
+    },
+    {
+      "label": "Lateral Movement (Internal SMB/RDP/SSH)",
+      "filter": "(dstport=445 or dstport=3389 or dstport=22 or dstport=5985) and srcip matches '^(10\\.|192\\.168\\.|172\\.)'",
+      "facet": "srcip",
+      "graphType": "topValuesTable",
+      "limit": 10
+    },
+    {
+      "label": "C2 Beacon Activity",
+      "filter": "dstport=4444 or dstport=8080 or attack matches '(Cobalt|Meterpreter|Beacon)'",
+      "function": "count",
+      "graphType": "stackedBar",
+      "breakdown": "srcip"
+    },
+    {
+      "label": "Failed Authentication Sources",
+      "facet": "callerIpAddress",
+      "filter": "resultType matches '^[1-9]' or message contains 'Failed' or message contains 'failure'",
+      "graphType": "topValuesTable",
+      "limit": 10
+    }
+  ]
+}

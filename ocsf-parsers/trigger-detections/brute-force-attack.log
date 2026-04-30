@@ -1,0 +1,10 @@
+Apr 28 17:45:01 dc01.corp.local sshd[12345]: Failed password for admin from 192.168.1.100 port 54321 ssh2
+Apr 28 17:45:02 dc01.corp.local sshd[12346]: Failed password for admin from 192.168.1.100 port 54322 ssh2
+Apr 28 17:45:03 dc01.corp.local sshd[12347]: Failed password for admin from 192.168.1.100 port 54323 ssh2
+Apr 28 17:45:04 dc01.corp.local sshd[12348]: Failed password for admin from 192.168.1.100 port 54324 ssh2
+Apr 28 17:45:05 dc01.corp.local sshd[12349]: Failed password for admin from 192.168.1.100 port 54325 ssh2
+Apr 28 17:45:06 dc01.corp.local sshd[12350]: Failed password for admin from 192.168.1.100 port 54326 ssh2
+Apr 28 17:45:07 dc01.corp.local sshd[12351]: Failed password for admin from 192.168.1.100 port 54327 ssh2
+Apr 28 17:45:08 dc01.corp.local sshd[12352]: Accepted password for admin from 192.168.1.100 port 54328 ssh2
+Apr 28 17:45:10 dc01.corp.local sudo: admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/bin/bash
+Apr 28 17:45:15 dc01.corp.local sudo: hacker : user NOT in sudoers ; TTY=pts/1 ; PWD=/tmp ; USER=root ; COMMAND=/bin/cat /etc/shadow

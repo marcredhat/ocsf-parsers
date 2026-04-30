@@ -1,0 +1,8 @@
+date=2026-04-28 time=17:46:20 devname="FG-LAB" devid="FG100E" type="traffic" subtype="forward" action="allow" srcip=10.0.1.100 srcport=49001 dstip=185.220.101.99 dstport=4444 proto=6 service="TCP/4444" sentbyte=1024 rcvdbyte=2048
+date=2026-04-28 time=17:46:21 devname="FG-LAB" devid="FG100E" type="traffic" subtype="forward" action="allow" srcip=10.0.1.100 srcport=49002 dstip=185.220.101.99 dstport=4444 proto=6 service="TCP/4444" sentbyte=512 rcvdbyte=1024
+date=2026-04-28 time=17:46:22 devname="FG-LAB" devid="FG100E" type="traffic" subtype="forward" action="allow" srcip=10.0.1.100 srcport=49003 dstip=185.220.101.99 dstport=4444 proto=6 service="TCP/4444" sentbyte=512 rcvdbyte=1024
+date=2026-04-28 time=17:46:30 devname="FG-LAB" devid="FG100E" type="traffic" subtype="forward" action="allow" srcip=10.0.1.100 srcport=49010 dstip=45.33.32.156 dstport=8080 proto=6 service="HTTP-ALT" sentbyte=50000 rcvdbyte=100
+date=2026-04-28 time=17:46:31 devname="FG-LAB" devid="FG100E" type="traffic" subtype="forward" action="allow" srcip=10.0.1.100 srcport=49011 dstip=45.33.32.156 dstport=8080 proto=6 service="HTTP-ALT" sentbyte=50000 rcvdbyte=100
+date=2026-04-28 time=17:46:32 devname="FG-LAB" devid="FG100E" type="traffic" subtype="forward" action="allow" srcip=10.0.1.100 srcport=49012 dstip=45.33.32.156 dstport=8080 proto=6 service="HTTP-ALT" sentbyte=50000 rcvdbyte=100
+date=2026-04-28 time=17:46:40 devname="FG-LAB" devid="FG100E" type="utm" subtype="ips" action="detected" attack="Cobalt.Strike.Beacon" srcip=10.0.1.100 dstip=185.220.101.99 severity="critical"
+date=2026-04-28 time=17:46:41 devname="FG-LAB" devid="FG100E" type="utm" subtype="ips" action="detected" attack="Meterpreter.Reverse.Shell" srcip=10.0.1.101 dstip=185.220.101.99 severity="critical"

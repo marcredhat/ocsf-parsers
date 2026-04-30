@@ -1,0 +1,10 @@
+Apr 28 14:55:00 bigip01 tmm[12345]: Rule /Common/iRule_Log <HTTP_REQUEST>: Client 192.168.10.50:54321 -> VIP 10.0.0.100:443 Pool /Common/web_pool Member 10.0.0.10:80 URI /api/users Method GET Host api.corp.local User-Agent Mozilla/5.0
+Apr 28 14:55:15 bigip01 tmm[12345]: Rule /Common/iRule_Security <HTTP_REQUEST>: BLOCKED - SQL Injection attempt detected Client 203.0.113.100:45678 URI /api/users?id=1%27%20OR%20%271%27=%271 Pattern matched: ' OR '
+Apr 28 14:55:30 bigip01 tmm1[12346]: 01260013:4: SSL Handshake failed for TCP 192.168.10.75:49876 -> 10.0.0.100:443 - Certificate verification failed
+Apr 28 14:55:45 bigip01 apmd[23456]: 01490500:5: /Common/access_policy:Common:abc123def456: Session created - User: jsmith Client IP: 192.168.1.105 Session ID: abc123def456789
+Apr 28 14:56:00 bigip01 apmd[23456]: 01490506:5: /Common/access_policy:Common:abc123def456: Access policy result: Allow - User: jsmith assigned to Resource /Common/web_app
+Apr 28 14:56:15 bigip01 tmm[12345]: 01010028:3: No members available for pool /Common/database_pool - All members marked down
+Apr 28 14:56:30 bigip01 mcpd[34567]: 01070417:6: AUDIT - user admin (admin) from host 192.168.1.100 modified object /Common/web_pool member 10.0.0.11:80 state from enabled to disabled
+Apr 28 14:56:45 bigip01 tmm[12345]: Rule /Common/iRule_RateLimit <HTTP_REQUEST>: Rate limit exceeded for Client 192.168.10.200 - 1000 requests/minute threshold reached - Connection dropped
+Apr 28 14:57:00 bigip01 asm[45678]: ASM:unit_hostname="bigip01.corp.local",management_ip_address="192.168.1.10",web_application_name="/Common/webapp_policy",policy_name="/Common/webapp_policy",policy_apply_date="2026-04-28 10:00:00",violations="HTTP protocol compliance failed",request_status="blocked",response_code="403",ip_client="203.0.113.45",route_domain="0",method="POST",protocol="HTTPS",uri="/admin/login",query_string="",x_forwarded_for_header_value="",sig_ids="200001234",sig_names="XSS Attack",severity="Critical",attack_type="Cross Site Scripting (XSS)"
+Apr 28 14:57:15 bigip01 tmm[12345]: 01010025:6: Pool /Common/web_pool member 10.0.0.10:80 monitor status up - Health check passed

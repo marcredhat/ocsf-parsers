@@ -1,0 +1,10 @@
+Apr 28 14:52:00 generichost GenericApp[12345]: INFO User login successful user=jsmith src_ip=192.168.1.105 session_id=abc123def456
+Apr 28 14:52:15 generichost GenericApp[12345]: WARNING Failed authentication attempt user=admin src_ip=203.0.113.45 reason=invalid_password attempts=5
+Apr 28 14:52:30 generichost GenericApp[12345]: ERROR Database connection failed db_host=db01.corp.local db_port=5432 error_code=ECONNREFUSED
+Apr 28 14:52:45 generichost GenericApp[12345]: INFO File uploaded filename=report.pdf user=mwilson size_bytes=1048576 destination=/uploads/2026/04/
+Apr 28 14:53:00 generichost GenericApp[12345]: CRITICAL Security alert: Possible SQL injection detected src_ip=203.0.113.100 target_url=/api/users?id=1;DROP TABLE users payload="1' OR '1'='1"
+Apr 28 14:53:15 generichost GenericApp[12345]: INFO Configuration changed setting=max_connections old_value=100 new_value=200 changed_by=admin
+Apr 28 14:53:30 generichost GenericApp[12345]: WARNING Disk space low partition=/var/log used_percent=92 threshold=90
+Apr 28 14:53:45 generichost GenericApp[12345]: INFO Service started service_name=web-api version=2.5.1 port=8080 pid=23456
+Apr 28 14:54:00 generichost GenericApp[12345]: ERROR SSL certificate expiring soon domain=api.corp.local days_remaining=7 expiry_date=2026-05-05
+Apr 28 14:54:15 generichost GenericApp[12345]: INFO User logout user=jsmith session_id=abc123def456 duration_seconds=135

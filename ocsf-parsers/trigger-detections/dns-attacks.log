@@ -1,0 +1,10 @@
+28-Apr-2026 17:45:30.001 queries: info: client @0x7f8b8c000000 192.168.1.200#54321 (corp.local): query: corp.local IN AXFR +
+28-Apr-2026 17:45:30.002 security: warning: client @0x7f8b8c000001 192.168.1.200#54322 (corp.local): zone transfer 'corp.local' denied
+28-Apr-2026 17:45:31.001 queries: info: client @0x7f8b8c000002 10.0.1.50#12345 (aGVsbG8td29ybGQtdGhpcy1pcy1hLXZlcnktbG9uZy1kb21haW4tbmFtZS1mb3ItZG5zLXR1bm5lbGluZy5ldmlsLmNvbQ): query: aGVsbG8td29ybGQtdGhpcy1pcy1hLXZlcnktbG9uZy1kb21haW4tbmFtZS1mb3ItZG5zLXR1bm5lbGluZy5ldmlsLmNvbQ IN TXT +
+28-Apr-2026 17:45:31.002 queries: info: client @0x7f8b8c000003 10.0.1.50#12346 (c2VjcmV0LWRhdGEtZXhmaWx0cmF0aW9uLXZpYS1kbnMtcXVlcmllcy5ldmlsLmNvbQ): query: c2VjcmV0LWRhdGEtZXhmaWx0cmF0aW9uLXZpYS1kbnMtcXVlcmllcy5ldmlsLmNvbQ IN TXT +
+28-Apr-2026 17:45:32.001 queries: info: client @0x7f8b8c000004 10.0.1.51#23456 (malware.dyndns.org): query: malware.dyndns.org IN A +
+28-Apr-2026 17:45:32.002 queries: info: client @0x7f8b8c000005 10.0.1.51#23457 (c2-server.no-ip.com): query: c2-server.no-ip.com IN A +
+28-Apr-2026 17:45:32.003 queries: info: client @0x7f8b8c000006 10.0.1.51#23458 (phishing.tk): query: phishing.tk IN A +
+28-Apr-2026 17:45:33.001 rate-limit: info: client @0x7f8b8c000007 10.0.1.52#34567: rate limit drop NODATA response
+28-Apr-2026 17:45:33.002 rate-limit: info: client @0x7f8b8c000007 10.0.1.52#34568: rate limit drop NODATA response
+28-Apr-2026 17:45:33.003 rate-limit: info: client @0x7f8b8c000007 10.0.1.52#34569: rate limit drop NODATA response

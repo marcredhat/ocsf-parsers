@@ -1,0 +1,13 @@
+28-Apr-2026 15:09:00.123 queries: info: client @0x7f1234567890 192.168.10.50#54321 (mail.corp.local): query: mail.corp.local IN A +E(0)K (192.168.1.53)
+28-Apr-2026 15:09:15.456 queries: info: client @0x7f1234567891 192.168.10.75#54322 (www.google.com): query: www.google.com IN A +E(0)K (192.168.1.53)
+28-Apr-2026 15:09:30.789 queries: info: client @0x7f1234567892 192.168.10.30#54323 (malware.c2.example.com): query: malware.c2.example.com IN A +E(0)K (192.168.1.53)
+28-Apr-2026 15:09:45.012 queries: info: client @0x7f1234567893 192.168.10.100#54324 (github.com): query: github.com IN AAAA +E(0)K (192.168.1.53)
+28-Apr-2026 15:10:00.345 security: warning: client @0x7f1234567894 203.0.113.45#12345 (corp.local): zone transfer 'corp.local/AXFR/IN' denied
+28-Apr-2026 15:10:15.678 queries: info: client @0x7f1234567895 192.168.10.50#54325 (corp.local): query: corp.local IN MX +E(0)K (192.168.1.53)
+28-Apr-2026 15:10:30.901 security: error: client @0x7f1234567896 203.0.113.100#23456 (corp.local): query (cache) 'corp.local/ANY/IN' denied
+28-Apr-2026 15:10:45.234 resolver: info: DNS format error from 198.51.100.53#53 resolving suspicious-domain.example.com/A for client 192.168.10.200#54326: Name suspicious-domain.example.com (SOA) not subdomain of zone example.com -- invalidass
+28-Apr-2026 15:11:00.567 xfer-out: info: client @0x7f1234567897 192.168.1.54#54327 (corp.local): transfer of 'corp.local/IN': AXFR started (serial 2026042801)
+28-Apr-2026 15:11:15.890 xfer-out: info: client @0x7f1234567897 192.168.1.54#54327 (corp.local): transfer of 'corp.local/IN': AXFR ended
+28-Apr-2026 15:11:30.123 update: info: client @0x7f1234567898 192.168.10.50#54328 (corp.local): updating zone 'corp.local/IN': adding an RR at 'newhost.corp.local' A 192.168.10.250
+28-Apr-2026 15:11:45.456 dnssec: info: zone corp.local/IN: DNSKEY 12345/RSASHA256 (KSK) is now published
+28-Apr-2026 15:12:00.789 rate-limit: info: client @0x7f1234567899 203.0.113.200#54329: rate limit drop NXDOMAIN response to 203.0.113.200/32 for random123.corp.local IN A (0e1f2a3b)

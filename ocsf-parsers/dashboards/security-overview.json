@@ -1,0 +1,82 @@
+{
+  "name": "OCSF Security Overview",
+  "description": "Cross-source security posture dashboard based on OCSF-normalized events from 16 sources",
+  "version": "1.0.0",
+  "layout": "grid",
+  "refreshInterval": "60s",
+  "timeRange": "24h",
+  "panels": [
+    {
+      "id": "events-by-source",
+      "title": "Events by Source",
+      "type": "pie",
+      "position": {"x": 0, "y": 0, "w": 6, "h": 4},
+      "query": "* | group count() by serverHost | sort -count | limit 20",
+      "description": "Total event volume per security source"
+    },
+    {
+      "id": "events-timeline",
+      "title": "Event Volume Over Time",
+      "type": "timeseries",
+      "position": {"x": 6, "y": 0, "w": 6, "h": 4},
+      "query": "* | timeslice 5m | group count() by _slice",
+      "description": "Event ingestion rate"
+    },
+    {
+      "id": "severity-distribution",
+      "title": "Severity Distribution",
+      "type": "bar",
+      "position": {"x": 0, "y": 4, "w": 4, "h": 4},
+      "query": "* | filter severity != null | group count() by severity | sort -count",
+      "description": "Events by severity level"
+    },
+    {
+      "id": "top-source-ips",
+      "title": "Top Source IPs",
+      "type": "table",
+      "position": {"x": 4, "y": 4, "w": 4, "h": 4},
+      "query": "* | filter src_ip != null OR src_endpoint_ip != null | group count() by coalesce(src_ip, src_endpoint_ip) | sort -count | limit 10",
+      "description": "Most active source IP addresses"
+    },
+    {
+      "id": "top-users",
+      "title": "Top Active Users",
+      "type": "table",
+      "position": {"x": 8, "y": 4, "w": 4, "h": 4},
+      "query": "* | filter user_name != null | group count() by user_name | sort -count | limit 10",
+      "description": "Users with most activity"
+    },
+    {
+      "id": "auth-failures",
+      "title": "Authentication Failures",
+      "type": "number",
+      "position": {"x": 0, "y": 8, "w": 3, "h": 2},
+      "query": "* | filter (action='deny' OR status='failure' OR resultType matches '^[1-9]') | count()",
+      "description": "Total authentication failures"
+    },
+    {
+      "id": "firewall-denies",
+      "title": "Firewall Denies",
+      "type": "number",
+      "position": {"x": 3, "y": 8, "w": 3, "h": 2},
+      "query": "serverHost in ('fortigate-ocsf','checkpoint-ocsf','paloalto-ocsf','watchguard-ocsf') | filter action in ('deny','block','drop') | count()",
+      "description": "Total firewall denied connections"
+    },
+    {
+      "id": "ips-alerts",
+      "title": "IPS/IDS Alerts",
+      "type": "number",
+      "position": {"x": 6, "y": 8, "w": 3, "h": 2},
+      "query": "* | filter (subtype='ips' OR attack != null) | count()",
+      "description": "Intrusion prevention alerts"
+    },
+    {
+      "id": "dns-queries",
+      "title": "DNS Queries",
+      "type": "number",
+      "position": {"x": 9, "y": 8, "w": 3, "h": 2},
+      "query": "serverHost in ('msdns-ocsf','iscbind-ocsf') | count()",
+      "description": "Total DNS queries"
+    }
+  ]
+}

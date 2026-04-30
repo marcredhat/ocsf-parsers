@@ -1,0 +1,90 @@
+{
+  "name": "MITRE ATT&CK Coverage Dashboard",
+  "description": "MITRE ATT&CK technique coverage based on detections across OCSF sources",
+  "version": "1.0.0",
+  "layout": "grid",
+  "refreshInterval": "60s",
+  "timeRange": "24h",
+  "panels": [
+    {
+      "id": "t1110-brute-force",
+      "title": "T1110 - Brute Force",
+      "type": "number",
+      "position": {"x": 0, "y": 0, "w": 3, "h": 2},
+      "query": "* | filter (message contains 'Failed password' OR resultType matches '^[1-9]') | group count() by coalesce(src_ip,src_endpoint_ip,callerIpAddress) | filter _count >= 3 | count()",
+      "description": "Brute force attempts detected"
+    },
+    {
+      "id": "t1046-network-scanning",
+      "title": "T1046 - Network Service Scanning",
+      "type": "number",
+      "position": {"x": 3, "y": 0, "w": 3, "h": 2},
+      "query": "* | filter action='deny' | group hits=count() by srcip, dstport | group ports=count() by srcip | filter ports >= 5 | group total=count()",
+      "description": "Port scanning sources"
+    },
+    {
+      "id": "t1059-command-execution",
+      "title": "T1059 - Command and Scripting",
+      "type": "number",
+      "position": {"x": 6, "y": 0, "w": 3, "h": 2},
+      "query": "serverHost='linux-ocsf' | filter message matches '(bash|python|perl|powershell|cmd\\.exe).*-(c|e|enc)' | count()",
+      "description": "Suspicious command execution"
+    },
+    {
+      "id": "t1078-valid-accounts",
+      "title": "T1078 - Valid Accounts",
+      "type": "number",
+      "position": {"x": 9, "y": 0, "w": 3, "h": 2},
+      "query": "* | filter user_name in ('root','Administrator','admin','SYSTEM','SYS') | count()",
+      "description": "Privileged account usage"
+    },
+    {
+      "id": "t1071-application-layer",
+      "title": "T1071 - Application Layer Protocol",
+      "type": "number",
+      "position": {"x": 0, "y": 2, "w": 3, "h": 2},
+      "query": "serverHost in ('msdns-ocsf','iscbind-ocsf') | filter length(message) > 200 | count()",
+      "description": "DNS tunneling indicators"
+    },
+    {
+      "id": "t1098-account-manipulation",
+      "title": "T1098 - Account Manipulation",
+      "type": "number",
+      "position": {"x": 3, "y": 2, "w": 3, "h": 2},
+      "query": "* | filter (message contains 'useradd' OR message contains 'usermod' OR message contains 'Add member to role' OR message contains 'GRANT') | count()",
+      "description": "Account modifications"
+    },
+    {
+      "id": "t1548-privilege-escalation",
+      "title": "T1548 - Abuse Elevation Control",
+      "type": "number",
+      "position": {"x": 6, "y": 2, "w": 3, "h": 2},
+      "query": "serverHost='linux-ocsf' | filter message contains 'sudo' | count()",
+      "description": "Privilege escalation attempts"
+    },
+    {
+      "id": "t1021-remote-services",
+      "title": "T1021 - Remote Services",
+      "type": "number",
+      "position": {"x": 9, "y": 2, "w": 3, "h": 2},
+      "query": "* | filter dstport in (22,3389,5985,5986) | filter action='allow' | count()",
+      "description": "Remote service usage"
+    },
+    {
+      "id": "tactics-breakdown",
+      "title": "MITRE Tactics Coverage",
+      "type": "bar",
+      "position": {"x": 0, "y": 4, "w": 12, "h": 4},
+      "query": "* | parse 'tactic_name' as tactic | filter tactic != null | group count() by tactic | sort -count",
+      "description": "Event distribution by MITRE ATT&CK tactic"
+    },
+    {
+      "id": "kill-chain-progression",
+      "title": "Kill Chain Progression by Source IP",
+      "type": "table",
+      "position": {"x": 0, "y": 8, "w": 12, "h": 6},
+      "query": "* | filter (src_ip != null OR src_endpoint_ip != null OR srcip != null) | let attacker_ip = coalesce(src_ip, src_endpoint_ip, srcip, callerIpAddress) | group hits=count() by attacker_ip, serverHost | group sources_touched=count(), total_events=sum(hits) by attacker_ip | filter sources_touched >= 2 | sort -sources_touched",
+      "description": "IPs that appear across multiple security sources (potential kill chain progression)"
+    }
+  ]
+}

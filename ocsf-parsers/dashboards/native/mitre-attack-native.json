@@ -1,0 +1,91 @@
+{
+  "name": "OCSF MITRE ATT&CK Coverage",
+  "graphs": [
+    {
+      "label": "T1110 - Brute Force",
+      "filter": "message contains 'Failed password' or resultType matches '^[1-9]' or error_code='10'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1046 - Network Service Scanning",
+      "filter": "action='deny' and (serverHost='fortigate-ocsf' or serverHost='attack-target-02')",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1059 - Command and Scripting Interpreter",
+      "filter": "message matches '(bash|python|perl|powershell|cmd\\.exe).*-(c|e|enc)' or message contains 'reverse shell'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1078 - Valid Accounts",
+      "filter": "user_name='root' or user_name='Administrator' or user_name='admin' or user_name='SYSTEM' or user_name='SYS'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1071.004 - DNS Tunneling",
+      "filter": "(serverHost='iscbind-ocsf' or serverHost='attack-target-04') and message matches '[A-Za-z0-9+/=]{50,}'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1098 - Account Manipulation",
+      "filter": "message contains 'useradd' or message contains 'usermod' or message contains 'Add member to role' or message contains 'GRANT'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1548 - Privilege Escalation (sudo)",
+      "filter": "message contains 'sudo' or message contains 'NOT in sudoers'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1021 - Remote Services",
+      "filter": "(dstport=22 or dstport=3389 or dstport=5985 or dstport=5986) and action='allow'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1590.002 - DNS Reconnaissance",
+      "filter": "message contains 'AXFR' or message contains 'zone transfer'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1571 - Non-Standard Port C2",
+      "filter": "dstport=4444 or dstport=1337 or dstport=31337 or dstport=8080",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1005 - Data from Local System (DB exfil)",
+      "filter": "(serverHost='hanadb-ocsf' or serverHost='attack-target-05') and (message contains 'SELECT' or message contains 'BACKUP')",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "T1136 - Create Account",
+      "filter": "message contains 'useradd' or message contains 'new user' or message contains 'CREATE USER'",
+      "function": "count",
+      "graphType": "value"
+    },
+    {
+      "label": "Detections Over Time by Tactic",
+      "filter": "serverHost contains 'attack-target'",
+      "function": "count",
+      "graphType": "stackedBar",
+      "breakdown": "serverHost"
+    },
+    {
+      "label": "Top Attacker IPs (Cross-Source)",
+      "facet": "src_ip",
+      "filter": "src_ip is not null and serverHost contains 'attack-target'",
+      "graphType": "topValuesTable",
+      "limit": 10
+    }
+  ]
+}

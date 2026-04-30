@@ -1,0 +1,14 @@
+Apr 28 15:13:00 bigip01 apmd[12345]: 01490500:5: /Common/corp_access_policy:Common:session_abc123: New session created - Client IP: 192.168.1.105 User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+Apr 28 15:13:15 bigip01 apmd[12345]: 01490501:5: /Common/corp_access_policy:Common:session_abc123: Session variable 'session.logon.last.username' set to 'jsmith'
+Apr 28 15:13:30 bigip01 apmd[12345]: 01490502:5: /Common/corp_access_policy:Common:session_abc123: AD Auth query - User: jsmith Domain: CORP Server: dc01.corp.local Result: Success
+Apr 28 15:13:45 bigip01 apmd[12345]: 01490503:5: /Common/corp_access_policy:Common:session_abc123: AD Group query - User: jsmith Groups: Domain Users, VPN Users, IT Department
+Apr 28 15:14:00 bigip01 apmd[12345]: 01490504:5: /Common/corp_access_policy:Common:session_abc123: MFA Challenge sent - Method: RADIUS OTP Server: mfa.corp.local
+Apr 28 15:14:15 bigip01 apmd[12345]: 01490505:5: /Common/corp_access_policy:Common:session_abc123: MFA Response received - Result: Success
+Apr 28 15:14:30 bigip01 apmd[12345]: 01490506:5: /Common/corp_access_policy:Common:session_abc123: Access policy result: Allow - Assigned resources: /Common/network_access, /Common/portal_access
+Apr 28 15:14:45 bigip01 apmd[12345]: 01490507:5: /Common/corp_access_policy:Common:session_abc123: Network Access tunnel established - Assigned IP: 10.200.0.50 Lease Pool: /Common/vpn_pool
+Apr 28 15:15:00 bigip01 apmd[12345]: 01490510:4: /Common/corp_access_policy:Common:session_def456: Session authentication failed - User: admin Client IP: 203.0.113.45 Reason: Invalid credentials
+Apr 28 15:15:15 bigip01 apmd[12345]: 01490511:4: /Common/corp_access_policy:Common:session_def456: Access policy result: Deny - Reason: Authentication failure after 3 attempts
+Apr 28 15:15:30 bigip01 apmd[12345]: 01490520:5: /Common/corp_access_policy:Common:session_abc123: Session activity - User: jsmith Action: Resource access Resource: /Common/internal_portal
+Apr 28 15:15:45 bigip01 apmd[12345]: 01490521:5: /Common/corp_access_policy:Common:session_abc123: Endpoint inspection - OS: Windows 10 Antivirus: Windows Defender (Updated) Firewall: Enabled Compliant: Yes
+Apr 28 15:16:00 bigip01 apmd[12345]: 01490530:5: /Common/corp_access_policy:Common:session_abc123: Session terminated - User: jsmith Reason: User logout Duration: 180 seconds Bytes In: 1048576 Bytes Out: 524288
+Apr 28 15:16:15 bigip01 apmd[12345]: 01490540:3: /Common/corp_access_policy:Common:session_ghi789: Anomaly detected - User: mwilson Client IP: 198.51.100.75 Risk: Impossible travel - Last login from US, current from RU within 30 minutes

