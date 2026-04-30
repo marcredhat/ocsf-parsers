@@ -1,0 +1,15 @@
+CEF:0|Darktrace|DCIP|6.1|100|Model Breach|7|src=10.1.1.5 dst=8.8.8.8 spt=54321 dpt=443 cs1=Anomalous Connection / Suspicious Self-Signed SSL cs1Label=Model cs2=Compliance cs2Label=Category cn1=85 cn1Label=Score duser=jsmith deviceExternalId=12345 act=alert
+CEF:0|Darktrace|DCIP|6.1|100|Model Breach|9|src=10.1.1.42 dst=185.220.101.1 spt=51200 dpt=8443 cs1=Compromise / Beacon to Rare External Endpoint cs1Label=Model cs2=Compromise cs2Label=Category cn1=98 cn1Label=Score duser=admin deviceExternalId=12399 act=alert
+CEF:0|Darktrace|DCIP|6.1|100|Model Breach|6|src=10.2.0.15 dst=203.0.113.50 spt=49210 dpt=22 cs1=Device / Anomalous SSH cs1Label=Model cs2=Anomalous cs2Label=Category cn1=70 cn1Label=Score duser=opsuser deviceExternalId=44781 act=alert
+CEF:0|Darktrace|DCIP|6.1|100|Model Breach|10|src=10.5.5.10 dst=192.168.1.50 spt=55512 dpt=445 cs1=Anomalous File / Internal SMB Write cs1Label=Model cs2=AnomalousFile cs2Label=Category cn1=99 cn1Label=Score duser=svc_backup deviceExternalId=87010 act=alert
+CEF:0|Darktrace|DCIP|6.1|200|AI Analyst: Possible Data Exfiltration|10|src=10.1.1.42 dst=185.220.101.1 duser=admin deviceExternalId=12399 externalId=DT-INC-2026-0001 msg=Repeated outbound to rare endpoint with large data transfer act=investigate
+CEF:0|Darktrace|DCIP|6.1|200|AI Analyst: Suspicious SaaS Activity|9|src=10.1.1.5 duser=jsmith deviceExternalId=12345 externalId=DT-INC-2026-0002 msg=Unusual O365 mailbox forwarding rule created from new geo act=investigate
+CEF:0|Darktrace|DCIP|6.1|200|AI Analyst: Lateral Movement Suspected|10|src=10.5.5.10 dst=10.5.5.20 duser=svc_backup deviceExternalId=87010 externalId=DT-INC-2026-0003 msg=Internal scanning followed by SMB writes across multiple hosts act=investigate
+CEF:0|Darktrace|DCIP|6.1|300|Antigena Action|9|src=10.1.1.42 dst=185.220.101.1 duser=admin deviceExternalId=12399 act=block_connection
+CEF:0|Darktrace|DCIP|6.1|300|Antigena Action|10|src=10.5.5.10 dst=10.5.5.20 duser=svc_backup deviceExternalId=87010 act=enforce_pattern_of_life
+CEF:0|Darktrace|DCIP|6.1|300|Antigena Action|8|src=10.1.1.5 duser=jsmith deviceExternalId=12345 act=disable_user
+CEF:0|Darktrace|DCIP|6.1|400|Admin Login Failure|5|duser=root src=203.0.113.99
+CEF:0|Darktrace|DCIP|6.1|400|Admin Login Failure|5|duser=root src=203.0.113.99
+CEF:0|Darktrace|DCIP|6.1|400|Admin Login Failure|5|duser=root src=203.0.113.99
+CEF:0|Darktrace|DCIP|6.1|400|Admin Login Failure|5|duser=admin src=203.0.113.99
+CEF:0|Darktrace|DCIP|6.1|400|Admin Login Success|3|duser=secops src=10.0.0.10

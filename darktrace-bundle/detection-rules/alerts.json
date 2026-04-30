@@ -1,0 +1,157 @@
+{
+  "_comment": "Scheduled SDL alert rules — saved to /alerts via /api/putFile. Each rule fires when its `trigger` query returns >0 rows during the lookback window (alertTime). When fired, alert events appear in the AI SIEM Alerts/Findings UI.",
+  "alerts": [
+    {
+      "name": "Critical OCSF Detection Findings (any source)",
+      "description": "Fires when any data source reports a Detection Finding with severity_id=5 (Critical). Catches HANA Mass Exfil, SQL Injection, Linux reverse shells, Windows audit clearing, F5 WAF blocks, Palo Alto threats.",
+      "severity": "Critical",
+      "trigger": "class_uid='2004' AND severity_id='5' | group n=count() by serverHost, finding_title | filter n >= 1",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "High-Severity Detection Findings",
+      "description": "All HIGH severity OCSF findings — SSH brute force, sudo not in sudoers, F5 auth failures, Windows logon failures, Entra ID risky sign-ins.",
+      "severity": "High",
+      "trigger": "class_uid='2004' AND severity_id='4' | group n=count() by serverHost, finding_title | filter n >= 1",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 120
+    },
+
+    {
+      "name": "Linux SSH Brute-Force Then Successful Logon (Correlation)",
+      "description": "Detects 3+ failed SSH logins followed by a successful logon from the same source IP — classic credential stuffing kill chain.",
+      "severity": "Critical",
+      "trigger": "serverHost='linux-ocsf' | parse 'Failed password for $f_user$ from $f_ip$' | parse 'Accepted password for $a_user$ from $a_ip$' | group fails=count(f_user), success=count(a_user) by serverHost, f_ip | filter fails >= 3 and success >= 1",
+      "alertTime": 600,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "Multi-Source Coordinated Attack (Correlation)",
+      "description": "Same source IP triggers Detection Findings across 2+ different data sources within 1h — indicates coordinated multi-stage attack (e.g., port scan + brute force + exfil).",
+      "severity": "Critical",
+      "trigger": "class_uid='2004' AND src_ip != null | group sources=count() by src_ip | filter sources >= 5",
+      "alertTime": 3600,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "HANA Database SQL Injection or Mass Exfiltration",
+      "description": "Critical SAP HANA detection: SQL injection patterns OR rows_affected > 1000 indicating data exfiltration.",
+      "severity": "Critical",
+      "trigger": "serverHost='hana-ocsf' AND class_uid='2004' AND (finding_title contains 'SQL Injection' OR finding_title contains 'Mass Data Extraction')",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "DNS Suspicious Activity (BIND or Microsoft DNS)",
+      "description": "BIND or Microsoft DNS detected suspicious query — security warnings, AXFR zone transfers, base64 tunneling, or dynamic DNS.",
+      "severity": "High",
+      "trigger": "(serverHost='bind-ocsf' OR serverHost='msdns-ocsf') AND class_uid='2004' | group n=count() by finding_title | filter n >= 1",
+      "alertTime": 600,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "Cloud Identity Risky Sign-In",
+      "description": "Microsoft Entra ID flagged a sign-in failure or risky activity (auth failure, high-risk, Tor exit node, etc.).",
+      "severity": "High",
+      "trigger": "serverHost='entra-ocsf' AND class_uid='2004' | group n=count() by finding_title | filter n >= 1",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Web Application Attack (F5 WAF)",
+      "description": "F5 BIG-IP WAF blocked SQL injection, XSS, or other web attack pattern.",
+      "severity": "Critical",
+      "trigger": "serverHost='f5ltm-ocsf' AND class_uid='2004' AND (finding_title contains 'WAF' OR finding_title contains 'ASM')",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Palo Alto Threat / C2 Detection",
+      "description": "Palo Alto IPS/threat engine detected vulnerability exploit, spyware/C2, or malware.",
+      "severity": "Critical",
+      "trigger": "serverHost='paloalto-ocsf' AND class_uid='2004'",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Windows Security Detection Finding",
+      "description": "Any Windows Security Detection Finding — failed logons (4625), new accounts (4720), privileged group changes (4732), or audit log clearing (1102).",
+      "severity": "High",
+      "trigger": "serverHost='windows-ocsf' AND class_uid='2004' | group n=count() by finding_title | filter n >= 1",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Windows New User Account Or Privilege Escalation",
+      "description": "EventID 4720 (new user) or 4732 (added to privileged group) — persistence + privesc.",
+      "severity": "High",
+      "trigger": "serverHost='windows-ocsf' AND class_uid='2004' AND (finding_title contains '4720' OR finding_title contains '4732')",
+      "alertTime": 600,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "Authentication Failure Burst (Cross-Source)",
+      "description": "10+ authentication failures (class_uid=3002 status=Failure) across all IAM sources within 5 min — likely brute force.",
+      "severity": "High",
+      "trigger": "class_uid='3002' AND status_id='2' | group attempts=count() by user_name | filter attempts >= 10",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Linux Reverse Shell or Credential Dumping Tool",
+      "description": "Linux process activity detected mimikatz / hashdump / kerbrute / python socket reverse shell.",
+      "severity": "Critical",
+      "trigger": "serverHost='linux-ocsf' AND class_uid='2004' AND (finding_title contains 'Reverse Shell' OR finding_title contains 'Credential Dumping')",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Network Firewall Deny / Block (Spike)",
+      "description": "FortiGate or Check Point firewall denied 10+ connections — likely port scan, lateral movement attempt, or C2 callback.",
+      "severity": "High",
+      "trigger": "(serverHost='fortigate-ocsf' OR serverHost='checkpoint-ocsf') AND class_uid='2004' | group n=count() by serverHost, src_ip | filter n >= 10",
+      "alertTime": 600,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "Darktrace AI Analyst Incident",
+      "description": "Darktrace AI Analyst raised an incident (lateral movement, data exfil, suspicious SaaS activity, etc.) — top-priority NDR alert.",
+      "severity": "Critical",
+      "trigger": "serverHost='darktrace-ocsf' AND class_uid='2004' AND finding_title contains 'AI Analyst' | group n=count() by finding_title | filter n >= 1",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 30
+    },
+
+    {
+      "name": "Darktrace Antigena Autonomous Response Triggered",
+      "description": "Darktrace Antigena autonomously blocked traffic — confirms a high-confidence threat that the system already mitigated.",
+      "severity": "High",
+      "trigger": "serverHost='darktrace-ocsf' AND class_uid='2004' AND finding_title contains 'Antigena' | group n=count() by finding_title | filter n >= 1",
+      "alertTime": 300,
+      "renotifyPeriodMinutes": 60
+    },
+
+    {
+      "name": "Darktrace Model Breach High Score (>=80)",
+      "description": "Darktrace Model Breach with anomaly score >=80 (out of 100) — high-confidence behavioural anomaly worth investigating.",
+      "severity": "High",
+      "trigger": "serverHost='darktrace-ocsf' AND class_uid='2004' AND finding_title contains 'Model Breach' | group n=count() by finding_title | filter n >= 1",
+      "alertTime": 600,
+      "renotifyPeriodMinutes": 60
+    }
+  ]
+}
